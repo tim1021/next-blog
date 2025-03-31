@@ -93,13 +93,7 @@ export function MainNav({ className }: { className?: string }) {
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
-          <NavigationMenuItem>
-            <Link href="/about" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                About
-              </NavigationMenuLink>
-            </Link>
-          </NavigationMenuItem>
+
         </NavigationMenuList>
       </NavigationMenu>
       <div className=" flex items-cente justify-between w-20">
