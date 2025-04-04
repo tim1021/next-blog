@@ -1,31 +1,53 @@
 import Header from '@/components/Header'
 import { getBlogPosts } from '../utils'
-import { notFound } from 'next/navigation';
+import { notFound } from 'next/navigation'
+import Link from 'next/link'
+import CardCategory from '@/components/CardCategory'
+import Container from '@/components/Container'
 
-type PageProps = {
-  params: Promise<{ category: string }>;
-};
-
-export default async function Page({ params }: PageProps) {
-  // 等待 params 异步返回的值
-  const { category } = await params;
-
+export default function Page({ params }: { params: { category: string } }) {
   const posts = getBlogPosts().filter(
-    (post) => post.metadata.category === category
-  );
+    (post) => post.metadata.category === params.category
+  )
 
-  // 如果没有找到相关的文章，显示 404 页面
-  if (posts.length === 0) {
-    notFound();
-    return null;
+  if (!posts.length) {
+    notFound()
   }
-
   return (
     <>
       <Header>
-        <h1>{category}</h1>
+        <Container>
+          {' '}
+          <h1>{posts[0]?.metadata.category}</h1>
+        </Container>
       </Header>
-      {/* 渲染文章内容 */}
+      <Container>
+        {' '}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap4 mx-10 my-10">
+          {posts
+            .sort((a, b) => {
+              if (
+                new Date(a.metadata.publishedAt) >
+                new Date(b.metadata.publishedAt)
+              ) {
+                return -1
+              }
+              return 1
+            })
+            .map((post) => (
+              <Link
+                href={`/blog/${post.metadata.category}/${post.slug}`}
+                key={post.slug}
+              >
+                <CardCategory
+                  title={post.metadata.title}
+                  summary={post.metadata.summary}
+                  date={post.metadata.publishedAt}
+                />
+              </Link>
+            ))}
+        </div>
+      </Container>
     </>
-  );
+  )
 }

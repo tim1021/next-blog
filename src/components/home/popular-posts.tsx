@@ -1,8 +1,12 @@
 import { popularPosts } from '@/lib/placeholder-data'
 import { Icons } from '../icon'
 import Link from 'next/link'
+// import SkeletonCard from '../skeleton/popular_posts_skeleton'
 
 export default function PopularPosts() {
+
+  // const{data,error,isLoading}= useSWR()
+        {/* <SkeletonCard /> */}
   return (
     <ul className="overflow-auto">
       {popularPosts.map((post) => (
@@ -14,5 +18,6 @@ export default function PopularPosts() {
         </Link>
       ))}
     </ul>
+
   )
 }
